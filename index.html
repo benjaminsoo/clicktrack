@@ -349,7 +349,8 @@ function drawRuler(done) {
 function shareText() {
   const icon = {win: "✅", hot: "🔥", warm: "🟨", cold: "🧊", half: "🌗"};
   const lines = game.guesses.map(g => { const j = judge(g, game.song.b); return icon[j.tier] + (j.tier === "win" ? "" : j.dir === "up" ? "⬆️" : "⬇️"); });
-  return `Clicktrack ${game.daily ? "#" + game.n : "(practice)"} ${won() ? game.guesses.length : "X"}/${MAX}\n${lines.join(" ")}`;
+  // The song is fine to share: players see it before guessing. The BPM stays out.
+  return `Clicktrack ${game.daily ? "#" + game.n : "(practice)"} ${won() ? game.guesses.length : "X"}/${MAX}\n🎵 ${game.song.t} – ${game.song.a}\n${lines.join(" ")}`;
 }
 function copyShare() {
   const btn = $("#copy");
