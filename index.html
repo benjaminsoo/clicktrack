@@ -164,7 +164,7 @@ footer button { padding: 5px 10px; font-size: 12.5px; }
       </div>
     </div>
     <div class="pads">
-      <button type="button" class="pad tap" id="tap" disabled>Tap tempo<small>TAP ALONG IN YOUR HEAD</small></button>
+      <button type="button" class="pad tap" id="tap" disabled>Tap tempo<small>CLICK OR PRESS SPACE</small></button>
       <button type="button" class="pad hear" id="hear">Hear it<small>PLAY 8 CLICKS</small></button>
       <button type="submit" class="pad go" id="go" disabled>Lock in guess<small>ENTER</small></button>
     </div>
@@ -389,6 +389,14 @@ $("#tap").addEventListener("click", () => {
     $("#msg").textContent = `Keep tapping (${taps.length} of 4)`;
   }
 });
+// The space bar taps too. It takes over Space's usual jobs (pressing the focused button, scrolling)
+// so a tap can never land on "Lock in guess" by accident.
+document.addEventListener("keydown", e => {
+  if (e.code !== "Space" || e.metaKey || e.ctrlKey || e.altKey) return;
+  e.preventDefault();
+  if (!e.repeat && !$("#tap").disabled) $("#tap").click();
+});
+document.addEventListener("keyup", e => { if (e.code === "Space") e.preventDefault(); });
 
 // Metronome
 let ctx;
